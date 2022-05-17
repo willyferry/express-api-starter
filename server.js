@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const indexRouter = require('./routes/index.routes');
-const usersRouter = require('./routes/users.routes');
+require('dotenv').config();
 
-const port = 3000;
+const indexRouter = require('./Routes/index.routes');
+const usersRouter = require('./Routes/users.routes');
 
 const app = express();
 
@@ -16,10 +16,8 @@ app.use(bodyParser.json());
 // this will be public static folder
 app.use(express.static('public'));
 
-const mongodbUrl = 'mongodb://localhost:27017';
-
 mongoose
-    .connect(`${mongodbUrl}/express-crud`, {
+    .connect(process.env.MONGO_DB_URL, {
         useNewUrlParser: true
     })
     .then(() => {
@@ -32,6 +30,6 @@ mongoose
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
 });
