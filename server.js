@@ -1,16 +1,22 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
 require('dotenv').config();
+
+var corsOptions = {
+    origin: "http://localhost:" + process.env.PORT,
+}
 
 const indexRouter = require('./Routes/index.routes');
 const usersRouter = require('./Routes/users.routes');
 
 const app = express();
 
+app.use(cors(corsOptions));
+
 // using parser must before any route
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
 // this will be public static folder
